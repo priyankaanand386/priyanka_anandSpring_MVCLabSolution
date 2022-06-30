@@ -9,7 +9,9 @@ import javax.persistence.Table;
 
 @Table(name="student")
 @Entity
+
 public class Student {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,7 +27,12 @@ public class Student {
 	public Student() {
 	// TODO Auto-generated constructor stub
 }
-
+	public Student(String firstname, String lastname, String course, String country) {
+		this.firstname= firstname;
+		this.lastname = lastname;
+		this.course= course;
+		this.country= country;
+	}
 public int getId() {
 	return id;
 }

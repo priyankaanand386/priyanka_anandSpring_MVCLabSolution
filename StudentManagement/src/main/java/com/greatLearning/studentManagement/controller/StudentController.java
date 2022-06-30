@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,16 +51,24 @@ public class StudentController {
 		return "redirect:/students/list";
 	}
 
-	@RequestMapping("/save")
-	public String saveStudent(@RequestBody Student student) {
+	@PostMapping("/save")
+	public String saveStudent( @RequestParam("id")int id,@RequestParam("firstname")String firstname, @RequestParam("lastname")String lastname
+		, @RequestParam("course")String course, @RequestParam("country")String country) {
+		
+		System.out.println(id);
+		Student theStudent;
+		if(id!=0) {
 
-		Student theStudent = studentService.findById( student.getId() );
-		theStudent.setFirstname(student.getFirstname());
-		theStudent.setLastname(student.getLastname());
-		theStudent.setCourse(student.getCourse());
-		theStudent.setCountry(student.getCountry());
-		this.studentService.save(theStudent);
-		return "done";
+	    theStudent = studentService.findById(id);
+		theStudent.setFirstname(firstname);
+		theStudent.setLastname(lastname);
+		theStudent.setCourse(course);
+		theStudent.setCountry(country);}
+		else {
+			theStudent= new Student(firstname,lastname,course,country);
+		}
+		studentService.save(theStudent);
+		return "redirect:/students/list";
 	}
-	
+
 }
